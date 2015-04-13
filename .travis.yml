@@ -1,0 +1,18 @@
+language: php
+
+php:
+  - 5.5
+
+before_script:
+  - composer install --dev
+
+script: vendor/bin/phpunit
+
+after_success: |
+  [ "$TRAVIS_BRANCH" = "master" ] &&
+  [ "$TRAVIS_PULL_REQUEST" = "false" ] &&
+  git config --global user.email "build@travis-ci.org" &&
+  git config --global user.name "Travis CI" &&
+  export GIT_TAG=build-$TRAVIS_BRANCH-$(date -u "+%Y-%m-%d-%H-%M-%S")-$TRAVIS_BUILD_NUMBER &&
+  git tag $GIT_TAG -a -m "Generated tag from TravisCI build $TRAVIS_BUILD_NUMBER" &&
+  git push --quiet https://$GH_TOKEN@github.com/makusu/api-todo $GIT_TAG > /dev/null 2>&1
