@@ -53,7 +53,7 @@ $app->delete("/todo/{id}", "controller.todo:deleteAction")->assert('id', '\d+');
 $app->get('/', function () use ($app) {
     return $app->json(
         [
-            "Todo API using Silex.",
+            "Todo API using Silex. For PUT and DELETE, we need to input (string) `item` as a field.",
             "Available APIs are:",
             "GET: /todo",
             "GET: /todo/{id}",
